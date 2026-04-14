@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "auto-commit-ai"
+version = "0.1.0"
+description = "Generate conventional commit messages from staged git diffs"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Auto Commit" }]
+dependencies = [
+  "click>=8.1.8",
+  "rich>=13.9",
+  "questionary>=2.1",
+  "openai>=1.50",
+  "anthropic>=0.40",
+  "google-genai>=1.0",
+  "pyperclip>=1.9",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-mock", "pytest-cov"]
+
+[project.scripts]
+auto-commit = "auto_commit.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["auto_commit/auto_commit"]
+
+[tool.pytest.ini_options]
+addopts = "--tb=short -q"
+testpaths = ["tests"]
+filterwarnings = [
+  "error",
+  "ignore::DeprecationWarning:google",
+  "ignore::DeprecationWarning:pkg_resources",
+]
